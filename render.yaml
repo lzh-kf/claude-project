@@ -1,7 +1,7 @@
 services:
   - type: web
     name: rbac-admin
-    env: node
+    runtime: node
     buildCommand: cd client && npm install && npm run build && cd ../server && npm install
     startCommand: cd server && npx prisma migrate deploy && npx tsx prisma/seed.ts && npx tsx src/index.ts
     envVars:
