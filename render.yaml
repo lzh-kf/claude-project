@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: rbac-admin
+    env: node
+    buildCommand: cd client && npm install && npm run build && cd ../server && npm install
+    startCommand: cd server && npx prisma migrate deploy && npx tsx prisma/seed.ts && npx tsx src/index.ts
+    envVars:
+      - key: DATABASE_URL
+        value: file:/var/data/dev.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: "10000"
+    disk:
+      name: sqlite-data
+      mountPath: /var/data
+      sizeGB: 1
