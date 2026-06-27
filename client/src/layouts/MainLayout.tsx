@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { Layout, Menu, Button, Dropdown, Breadcrumb, theme } from 'antd'
+import { Layout, Menu, Button, Dropdown, Breadcrumb, Modal, theme } from 'antd'
 import {
   UserOutlined,
   TeamOutlined,
@@ -75,9 +75,23 @@ export default function MainLayout() {
   const { user, logout } = useAuthStore()
   const { token: themeToken } = theme.useToken()
 
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
+  const handleMenuClick = ({ key }: { key: string }) => {
+    if (key === 'logout') {
+      Modal.confirm({
+        title: '退出登录',
+        content: '确定要退出当前账号吗？退出后需要重新登录。',
+        okText: '确定退出',
+        cancelText: '取消',
+        centered: true,
+        width: 420,
+        okButtonProps: { danger: true, size: 'large' },
+        cancelButtonProps: { size: 'large' },
+        onOk: () => {
+          logout()
+          navigate('/login')
+        },
+      })
+    }
   }
 
   const userMenuItems: MenuProps['items'] = [
@@ -121,7 +135,7 @@ export default function MainLayout() {
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
           />
-          <Dropdown menu={{ items: userMenuItems, onClick: handleLogout }}>
+          <Dropdown menu={{ items: userMenuItems, onClick: handleMenuClick }}>
             <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
               <UserOutlined />
               <span>{user?.username || '管理员'}</span>
