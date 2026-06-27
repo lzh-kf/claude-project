@@ -128,11 +128,10 @@ export default function MainLayout() {
             </div>
           </Dropdown>
         </Header>
-        <Content style={{ margin: 24, padding: 24, background: themeToken.colorBgContainer, borderRadius: 8, overflow: 'auto' }}>
-          <Breadcrumb
-            items={getBreadcrumbs(location.pathname)}
-            style={{ marginBottom: 16 }}
-          />
+        <div style={{ margin: '24px 24px 0', padding: '12px 24px', background: themeToken.colorBgContainer, borderRadius: '8px 8px 0 0' }}>
+          <Breadcrumb items={getBreadcrumbs(location.pathname)} />
+        </div>
+        <Content style={{ margin: '0 24px 24px', padding: '0 24px 24px', background: themeToken.colorBgContainer, borderRadius: '0 0 8px 8px', overflow: 'auto', flex: 1 }}>
           <Outlet />
         </Content>
       </Layout>
