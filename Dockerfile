@@ -2,8 +2,8 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# 安装 Prisma 需要的 OpenSSL
-RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+# 安装 Prisma 需要的 OpenSSL + sqlite3（方便查看数据库）
+RUN apt-get update && apt-get install -y openssl sqlite3 && rm -rf /var/lib/apt/lists/*
 
 # 1. 安装客户端依赖并构建
 COPY client/package*.json client/

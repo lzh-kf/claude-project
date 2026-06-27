@@ -1,11 +1,26 @@
+import { useEffect, useState } from 'react'
 import { Card, Col, Row, Statistic, Typography } from 'antd'
 import { UserOutlined, TeamOutlined, SafetyOutlined } from '@ant-design/icons'
 import { useAuthStore } from '../../store/auth'
+import request from '../../api/request'
 
 const { Title, Paragraph } = Typography
 
+interface Stats {
+  users: number
+  roles: number
+  permissions: number
+  userRoles: number
+  rolePermissions: number
+}
+
 export default function DashboardPage() {
   const user = useAuthStore(s => s.user)
+  const [stats, setStats] = useState<Stats | null>(null)
+
+  useEffect(() => {
+    request.get('/stats').then(setStats).catch(() => {})
+  }, [])
 
   return (
     <div>
@@ -15,17 +30,32 @@ export default function DashboardPage() {
       <Row gutter={16} style={{ marginTop: 24 }}>
         <Col span={8}>
           <Card>
-            <Statistic title="用户管理" prefix={<UserOutlined />} value="CRUD" />
+            <Statistic
+              title="用户总数"
+              prefix={<UserOutlined />}
+              value={stats?.users ?? '-'}
+              loading={!stats}
+            />
           </Card>
         </Col>
         <Col span={8}>
           <Card>
-            <Statistic title="角色管理" prefix={<TeamOutlined />} value="CRUD" />
+            <Statistic
+              title="角色总数"
+              prefix={<TeamOutlined />}
+              value={stats?.roles ?? '-'}
+              loading={!stats}
+            />
           </Card>
         </Col>
         <Col span={8}>
           <Card>
-            <Statistic title="权限管理" prefix={<SafetyOutlined />} value="CRUD" />
+            <Statistic
+              title="权限总数"
+              prefix={<SafetyOutlined />}
+              value={stats?.permissions ?? '-'}
+              loading={!stats}
+            />
           </Card>
         </Col>
       </Row>

@@ -1,12 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
+import { PrismaClient } from '@prisma/client'
 import authRoutes from './routes/auth'
 import userRoutes from './routes/users'
 import roleRoutes from './routes/roles'
 import permissionRoutes from './routes/permissions'
 
 const app = express()
+const prisma = new PrismaClient()
 
 app.use(cors())
 app.use(express.json())
@@ -20,6 +22,27 @@ app.use('/api/permissions', permissionRoutes)
 // 健康检查
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
+})
+
+// 数据库统计（无需登录，方便查看数据）
+app.get('/api/stats', async (_req, res) => {
+  const [users, roles, permissions, userRoles, rolePermissions] = await Promise.all([
+    prisma.user.count(),
+    prisma.role.count(),
+    prisma.permission.count(),
+    prisma.userRole.count(),
+    prisma.rolePermission.count(),
+  ])
+  res.json({
+    code: 0,
+    data: {
+      users,
+      roles,
+      permissions,
+      userRoles,
+      rolePermissions,
+    },
+  })
 })
 
 // 托管前端静态文件（生产环境）
