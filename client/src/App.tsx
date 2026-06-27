@@ -6,6 +6,10 @@ import DashboardPage from './pages/dashboard'
 import UsersPage from './pages/users'
 import RolesPage from './pages/roles'
 import PermissionsPage from './pages/permissions'
+import ProductsPage from './pages/products'
+import CategoriesPage from './pages/categories'
+import OrdersPage from './pages/orders'
+import OrderDetailPage from './pages/orders/detail'
 
 export default function App() {
   return (
@@ -24,6 +28,10 @@ export default function App() {
         <Route path="users" element={<UsersPage />} />
         <Route path="roles" element={<RolesPage />} />
         <Route path="permissions" element={<PermissionsPage />} />
+        <Route path="products" element={<ProductsPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
+        <Route path="orders" element={<OrdersPage />} />
+        <Route path="orders/:id" element={<OrderDetailPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

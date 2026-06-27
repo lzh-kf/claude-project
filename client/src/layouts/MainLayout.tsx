@@ -9,6 +9,9 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   LogoutOutlined,
+  ShoppingOutlined,
+  AppstoreOutlined,
+  ShoppingCartOutlined,
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { useAuthStore } from '../store/auth'
@@ -20,6 +23,9 @@ const menuItems: MenuProps['items'] = [
   { key: '/users', icon: <UserOutlined />, label: '用户管理' },
   { key: '/roles', icon: <TeamOutlined />, label: '角色管理' },
   { key: '/permissions', icon: <SafetyOutlined />, label: '权限管理' },
+  { key: '/products', icon: <ShoppingOutlined />, label: '商品管理' },
+  { key: '/categories', icon: <AppstoreOutlined />, label: '分类管理' },
+  { key: '/orders', icon: <ShoppingCartOutlined />, label: '订单管理' },
 ]
 
 export default function MainLayout() {

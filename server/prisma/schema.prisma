@@ -66,3 +66,63 @@ model RolePermission {
 
   @@id([roleId, permissionId])
 }
+
+// ============ 商城模型 ============
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  parentId    Int?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  sort        Int        @default(0)
+  status      Int        @default(1)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  products    Product[]
+}
+
+model Product {
+  id            Int         @id @default(autoincrement())
+  name          String
+  description   String?
+  price         Float
+  originalPrice Float?
+  stock         Int         @default(0)
+  categoryId    Int?
+  category      Category?   @relation(fields: [categoryId], references: [id])
+  images        String?
+  status        Int         @default(1)
+  isFeatured    Int         @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  orderNo     String      @unique
+  userId      Int
+  totalAmount Float
+  status      String      @default("pending")
+  consignee   String
+  phone       String
+  address     String
+  remark      String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  items       OrderItem[]
+}
+
+model OrderItem {
+  id           Int      @id @default(autoincrement())
+  orderId      Int
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    Int
+  product      Product  @relation(fields: [productId], references: [id])
+  productName  String
+  productImage String?
+  price        Float
+  quantity     Int
+}

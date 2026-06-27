@@ -6,6 +6,10 @@ import authRoutes from './routes/auth'
 import userRoutes from './routes/users'
 import roleRoutes from './routes/roles'
 import permissionRoutes from './routes/permissions'
+import dashboardRoutes from './routes/dashboard'
+import categoryRoutes from './routes/categories'
+import productRoutes from './routes/products'
+import orderRoutes from './routes/orders'
 
 const app = express()
 const prisma = new PrismaClient()
@@ -18,6 +22,10 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/roles', roleRoutes)
 app.use('/api/permissions', permissionRoutes)
+app.use('/api/dashboard', dashboardRoutes)
+app.use('/api/categories', categoryRoutes)
+app.use('/api/products', productRoutes)
+app.use('/api/orders', orderRoutes)
 
 // 健康检查
 app.get('/api/health', (_req, res) => {
