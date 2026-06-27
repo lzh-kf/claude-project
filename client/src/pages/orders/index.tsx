@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Table, Button, Space, Select, Tag, Modal, message } from 'antd'
-import { EyeOutlined } from '@ant-design/icons'
+import { Table, Button, Space, Input, Select, Tag, Modal, message } from 'antd'
+import { EyeOutlined, SearchOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import type { ColumnsType } from 'antd/es/table'
 import { getOrders, updateOrderStatus, type Order } from '../../api/orders'
@@ -34,6 +34,8 @@ export default function OrdersPage() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [status, setStatus] = useState('')
+  const [keyword, setKeyword] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
   const [statusModalOpen, setStatusModalOpen] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
@@ -43,12 +45,12 @@ export default function OrdersPage() {
   const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await getOrders({ page, pageSize, status })
+      const res = await getOrders({ page, pageSize, status, keyword })
       setData(res.list)
       setTotal(res.total)
     } catch { /* handled */ }
     finally { setLoading(false) }
-  }, [page, pageSize, status])
+  }, [page, pageSize, status, keyword])
 
   useEffect(() => { fetchData() }, [fetchData])
 
@@ -129,6 +131,18 @@ export default function OrdersPage() {
           onChange={v => { setStatus(v); setPage(1) }}
           style={{ width: 140 }}
         />
+        <Space.Compact>
+          <Input
+            placeholder="搜索订单号/收货人"
+            prefix={<SearchOutlined />}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onPressEnter={() => { setKeyword(inputValue); setPage(1) }}
+            allowClear
+            onClear={() => { setInputValue(''); setKeyword(''); setPage(1) }}
+          />
+          <Button type="primary" icon={<SearchOutlined />} onClick={() => { setKeyword(inputValue); setPage(1) }}>搜索</Button>
+        </Space.Compact>
       </Space>
 
       <Table

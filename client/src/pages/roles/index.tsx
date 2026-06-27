@@ -11,6 +11,7 @@ export default function RolesPage() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [keyword, setKeyword] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -144,13 +145,18 @@ export default function RolesPage() {
   return (
     <div>
       <Space style={{ marginBottom: 16 }}>
-        <Input
-          placeholder="搜索名称/编码"
-          prefix={<SearchOutlined />}
-          value={keyword}
-          onChange={e => { setKeyword(e.target.value); setPage(1) }}
-          allowClear
-        />
+        <Space.Compact>
+          <Input
+            placeholder="搜索名称/编码"
+            prefix={<SearchOutlined />}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onPressEnter={() => { setKeyword(inputValue); setPage(1) }}
+            allowClear
+            onClear={() => { setInputValue(''); setKeyword(''); setPage(1) }}
+          />
+          <Button type="primary" icon={<SearchOutlined />} onClick={() => { setKeyword(inputValue); setPage(1) }}>搜索</Button>
+        </Space.Compact>
         <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>新增角色</Button>
       </Space>
 

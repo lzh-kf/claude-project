@@ -11,6 +11,7 @@ export default function UsersPage() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [keyword, setKeyword] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
 
   // 模态框状态
@@ -134,13 +135,18 @@ export default function UsersPage() {
   return (
     <div>
       <Space style={{ marginBottom: 16 }}>
-        <Input
-          placeholder="搜索用户名/邮箱"
-          prefix={<SearchOutlined />}
-          value={keyword}
-          onChange={e => { setKeyword(e.target.value); setPage(1) }}
-          allowClear
-        />
+        <Space.Compact>
+          <Input
+            placeholder="搜索用户名/邮箱"
+            prefix={<SearchOutlined />}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onPressEnter={() => { setKeyword(inputValue); setPage(1) }}
+            allowClear
+            onClear={() => { setInputValue(''); setKeyword(''); setPage(1) }}
+          />
+          <Button type="primary" icon={<SearchOutlined />} onClick={() => { setKeyword(inputValue); setPage(1) }}>搜索</Button>
+        </Space.Compact>
         <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>新增用户</Button>
       </Space>
 

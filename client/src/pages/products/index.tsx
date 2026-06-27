@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Row, Col, Table, Button, Space, Modal, Form, Input, InputNumber, Select, Tag, Popconfirm, message, Switch } from 'antd'
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import { getProducts, createProduct, updateProduct, deleteProduct, type Product, type PaginatedResult } from '../../api/products'
 import { getCategoryTree, type Category } from '../../api/categories'
@@ -11,6 +11,7 @@ export default function ProductsPage() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [keyword, setKeyword] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
@@ -159,12 +160,18 @@ export default function ProductsPage() {
     <div>
       <Space style={{ marginBottom: 16 }}>
         <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>新增商品</Button>
-        <Input
-          placeholder="搜索商品名称"
-          allowClear
-          style={{ width: 240 }}
-          onChange={e => { setKeyword(e.target.value); setPage(1) }}
-        />
+        <Space.Compact>
+          <Input
+            placeholder="搜索商品名称"
+            prefix={<SearchOutlined />}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onPressEnter={() => { setKeyword(inputValue); setPage(1) }}
+            allowClear
+            onClear={() => { setInputValue(''); setKeyword(''); setPage(1) }}
+          />
+          <Button type="primary" icon={<SearchOutlined />} onClick={() => { setKeyword(inputValue); setPage(1) }}>搜索</Button>
+        </Space.Compact>
       </Space>
 
       <Table
