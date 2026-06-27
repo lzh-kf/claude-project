@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { Layout, Menu, Button, Dropdown, theme } from 'antd'
+import { Layout, Menu, Button, Dropdown, Breadcrumb, theme } from 'antd'
 import {
   UserOutlined,
   TeamOutlined,
@@ -27,6 +27,46 @@ const menuItems: MenuProps['items'] = [
   { key: '/categories', icon: <AppstoreOutlined />, label: '分类管理' },
   { key: '/orders', icon: <ShoppingCartOutlined />, label: '订单管理' },
 ]
+
+// 面包屑路径映射
+const breadcrumbMap: Record<string, string> = {
+  '/dashboard': '仪表盘',
+  '/users': '用户管理',
+  '/roles': '角色管理',
+  '/permissions': '权限管理',
+  '/products': '商品管理',
+  '/categories': '分类管理',
+  '/orders': '订单管理',
+}
+
+// 根据当前路径生成面包屑
+function getBreadcrumbs(pathname: string): { title: string }[] {
+  const items: { title: string }[] = [{ title: '首页' }]
+
+  // 精确匹配
+  if (breadcrumbMap[pathname]) {
+    items.push({ title: breadcrumbMap[pathname] })
+    return items
+  }
+
+  // 子路由匹配：如 /orders/123 → 订单管理 > 订单详情
+  const parts = pathname.split('/').filter(Boolean)
+  if (parts.length >= 2) {
+    const parentPath = '/' + parts[0]
+    if (breadcrumbMap[parentPath]) {
+      items.push({ title: breadcrumbMap[parentPath] })
+      // 最后一段作为详情标题
+      const detailMap: Record<string, string> = {
+        'orders': '订单详情',
+      }
+      const detailLabel = detailMap[parts[0]] || parts[1]
+      items.push({ title: detailLabel })
+      return items
+    }
+  }
+
+  return items
+}
 
 export default function MainLayout() {
   const [collapsed, setCollapsed] = useState(false)
@@ -89,6 +129,10 @@ export default function MainLayout() {
           </Dropdown>
         </Header>
         <Content style={{ margin: 24, padding: 24, background: themeToken.colorBgContainer, borderRadius: 8, overflow: 'auto' }}>
+          <Breadcrumb
+            items={getBreadcrumbs(location.pathname)}
+            style={{ marginBottom: 16 }}
+          />
           <Outlet />
         </Content>
       </Layout>
