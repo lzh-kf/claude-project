@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../utils/prisma'
 import { success, fail, paginate } from '../utils/response'
-
-const prisma = new PrismaClient()
 
 const statusLabel: Record<string, string> = {
   pending: '待付款',

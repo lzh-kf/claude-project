@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -87,8 +87,8 @@ model Product {
   id            Int         @id @default(autoincrement())
   name          String
   description   String?
-  price         Float
-  originalPrice Float?
+  price         Decimal     @db.Decimal(10, 2)
+  originalPrice Decimal?    @db.Decimal(10, 2)
   stock         Int         @default(0)
   categoryId    Int?
   category      Category?   @relation(fields: [categoryId], references: [id])
@@ -104,7 +104,7 @@ model Order {
   id          Int         @id @default(autoincrement())
   orderNo     String      @unique
   userId      Int
-  totalAmount Float
+  totalAmount Decimal      @db.Decimal(10, 2)
   status      String      @default("pending")
   consignee   String
   phone       String
@@ -123,6 +123,6 @@ model OrderItem {
   product      Product  @relation(fields: [productId], references: [id])
   productName  String
   productImage String?
-  price        Float
+  price        Decimal      @db.Decimal(10, 2)
   quantity     Int
 }

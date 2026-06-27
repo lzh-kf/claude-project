@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../utils/prisma'
 import { success, fail } from '../utils/response'
-
-const prisma = new PrismaClient()
 
 function buildTree(list: any[], parentId: number | null = null): any[] {
   return list

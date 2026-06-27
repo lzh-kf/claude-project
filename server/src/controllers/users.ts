@@ -1,9 +1,7 @@
 import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../utils/prisma'
 import { success, fail, paginate } from '../utils/response'
-
-const prisma = new PrismaClient()
 
 export async function list(req: Request, res: Response) {
   const page = parseInt(req.query.page as string) || 1

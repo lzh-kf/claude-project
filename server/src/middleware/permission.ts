@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../utils/prisma'
 import { fail } from '../utils/response'
-
-const prisma = new PrismaClient()
 
 /**
  * 权限校验中间件工厂：检查当前用户是否拥有指定权限码

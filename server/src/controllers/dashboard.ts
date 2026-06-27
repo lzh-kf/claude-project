@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../utils/prisma'
 import { success } from '../utils/response'
-
-const prisma = new PrismaClient()
 
 export async function stats(_req: Request, res: Response) {
   // 汇总卡片数据
@@ -33,7 +31,7 @@ export async function stats(_req: Request, res: Response) {
 
     salesTrend.push({
       date: `${start.getMonth() + 1}/${start.getDate()}`,
-      amount: Math.round(orders.reduce((s, o) => s + o.totalAmount, 0) * 100) / 100,
+      amount: Math.round(orders.reduce((s, o) => s + Number(o.totalAmount), 0) * 100) / 100,
       count: orders.length,
     })
   }
@@ -78,7 +76,7 @@ export async function stats(_req: Request, res: Response) {
   })
 
   return success(res, {
-    totalSales: Math.round((totalSales._sum.totalAmount || 0) * 100) / 100,
+    totalSales: Math.round((Number(totalSales._sum.totalAmount) || 0) * 100) / 100,
     totalOrders,
     totalProducts,
     totalCategories,
