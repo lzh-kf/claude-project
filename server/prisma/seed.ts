@@ -177,13 +177,13 @@ async function main() {
   }
   console.log('✅ 管理员: admin / admin123')
 
-  // =========== 5. 商品分类（批量创建） ===========
+  // =========== 5. 商品分类（仅首次创建，共享数据库不删除已有数据） ===========
   console.log('📂 正在创建商品分类...')
 
-  // 先清理旧分类（按 parentId 先删子再删父，或直接 SET FOREIGN_KEY_CHECKS=0）
-  await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0')
-  await prisma.category.deleteMany()
-  await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 1')
+  const existingCats = await prisma.category.count()
+  if (existingCats > 0) {
+    console.log(`⏭️  分类已存在 (${existingCats} 条)，跳过`)
+  } else {
 
   // 创建一级分类
   const mainCatData = CATEGORY_DEFS.map((c, i) => ({
@@ -223,14 +223,15 @@ async function main() {
   for (const c of allCats) catById[c.id] = c
 
   console.log(`✅ 分类: ${mainCats.length} 大类 + ${leafCats.length} 子类 = ${allCats.length} 条`)
+  } // end if existingCats === 0
 
-  // =========== 6. 商品（批量创建 1000+） ===========
+  // =========== 6. 商品（仅首次创建） ===========
   console.log('📦 正在生成商品...')
 
-  // 清理旧商品
-  await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0')
-  await prisma.product.deleteMany()
-  await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 1')
+  const existingProducts = await prisma.product.count()
+  if (existingProducts > 0) {
+    console.log(`⏭️  商品已存在 (${existingProducts} 条)，跳过`)
+  } else {
 
   const PRODUCT_COUNT = 1080
   const productData: {
@@ -301,14 +302,15 @@ async function main() {
   // 查询所有商品 ID
   const allProducts = await prisma.product.findMany({ select: { id: true, name: true, price: true } })
   console.log(`✅ 商品: ${allProducts.length} 条`)
+  } // end if existingProducts === 0
 
-  // =========== 7. 订单 ===========
+  // =========== 7. 订单（持续追加） ===========
   console.log('📋 正在生成订单...')
 
-  await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0')
-  await prisma.orderItem.deleteMany()
-  await prisma.order.deleteMany()
-  await prisma.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 1')
+  const existingOrders = await prisma.order.count()
+  if (existingOrders > 0) {
+    console.log(`⏭️  订单已存在 (${existingOrders} 条)，跳过`)
+  } else {
 
   const statuses = ['delivered', 'delivered', 'delivered', 'shipped', 'shipped', 'confirmed', 'pending', 'cancelled']
   const consignees = ['张三', '李四', '王五', '赵六', '陈七', '周八', '吴九', '郑十']
@@ -398,6 +400,7 @@ async function main() {
   }
 
   console.log(`✅ 订单: ${ORDER_COUNT} 条`)
+  } // end if existingOrders === 0
   console.timeEnd('⏱  总耗时')
   console.log('🎉 种子数据初始化完成!')
 }
