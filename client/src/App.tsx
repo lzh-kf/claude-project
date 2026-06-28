@@ -11,6 +11,7 @@ import ProductFormPage from './pages/products/ProductForm'
 import CategoriesPage from './pages/categories'
 import OrdersPage from './pages/orders'
 import OrderDetailPage from './pages/orders/detail'
+import MembersPage from './pages/members'
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="categories" element={<CategoriesPage />} />
         <Route path="orders" element={<OrdersPage />} />
         <Route path="orders/:id" element={<OrderDetailPage />} />
+        <Route path="members" element={<MembersPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

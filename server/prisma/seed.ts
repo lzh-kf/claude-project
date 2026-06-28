@@ -85,6 +85,11 @@ async function main() {
     { name: '订单管理', code: 'order:menu', type: 'menu', path: '/orders', icon: 'ShoppingCartOutlined', sort: 6 },
     { name: '查看订单', code: 'order:view', type: 'button', parentCode: 'order:menu', sort: 1 },
     { name: '处理订单', code: 'order:update', type: 'button', parentCode: 'order:menu', sort: 2 },
+    { name: '会员管理', code: 'member:menu', type: 'menu', path: '/members', icon: 'IdcardOutlined', sort: 7 },
+    { name: '查看会员', code: 'member:view', type: 'button', parentCode: 'member:menu', sort: 1 },
+    { name: '创建会员', code: 'member:create', type: 'button', parentCode: 'member:menu', sort: 2 },
+    { name: '编辑会员', code: 'member:update', type: 'button', parentCode: 'member:menu', sort: 3 },
+    { name: '删除会员', code: 'member:delete', type: 'button', parentCode: 'member:menu', sort: 4 },
   ]
 
   const permMap: Record<string, number> = {}
@@ -146,6 +151,7 @@ async function main() {
     'product:menu', 'product:view', 'product:create', 'product:update',
     'category:menu', 'category:view', 'category:create', 'category:update',
     'order:menu', 'order:view', 'order:update',
+    'member:menu', 'member:view', 'member:create', 'member:update',
   ]
   await prisma.rolePermission.deleteMany({ where: { roleId: editorRole.id } })
   await prisma.rolePermission.createMany({
@@ -155,6 +161,7 @@ async function main() {
   const viewerPermCodes = [
     'user:menu', 'user:view', 'role:menu', 'role:view', 'perm:menu', 'perm:view',
     'product:menu', 'product:view', 'category:menu', 'category:view', 'order:menu', 'order:view',
+    'member:menu', 'member:view',
   ]
   await prisma.rolePermission.deleteMany({ where: { roleId: viewerRole.id } })
   await prisma.rolePermission.createMany({
