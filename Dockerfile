@@ -25,5 +25,5 @@ RUN mkdir -p /var/data
 # 5. 暴露端口
 EXPOSE 3000
 
-# 6. 启动：迁移数据库 + 种子数据 + 运行服务
-CMD cd server && npx prisma migrate deploy && npx tsx prisma/seed.ts && npx tsx src/index.ts
+# 6. 启动：数据库由 app-project 统一管理，这里只启动服务
+CMD cd server && npx tsx src/index.ts
