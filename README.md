@@ -1,6 +1,6 @@
-# RBAC 后台管理系统 Demo
+# 根号奇商城管理系统
 
-基于 React + Express + Prisma + SQLite 的权限管理系统，用于验证 AI 全栈开发可行性。
+基于 React + Express + Prisma + PostgreSQL 的商城管理系统，用于验证 AI 全栈开发可行性。
 
 ## 技术栈
 
@@ -50,7 +50,7 @@ npm run dev
 - ✅ 角色管理（CRUD + 权限分配）
 - ✅ 权限管理（树形结构 + CRUD）
 - ✅ JWT 认证中间件
-- ✅ RBAC 权限校验中间件
+- ✅ 权限校验中间件
 - ✅ 前端路由守卫 + 菜单控制
 
 ## 项目结构

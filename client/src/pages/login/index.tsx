@@ -57,10 +57,10 @@ export default function LoginPage() {
             margin: '0 auto 16px',
             boxShadow: '0 8px 24px rgba(102, 126, 234, 0.35)',
           }}>
-            <span style={{ color: '#fff', fontSize: 26, fontWeight: 700 }}>R</span>
+            <span style={{ color: '#fff', fontSize: 26, fontWeight: 700 }}>√</span>
           </div>
-          <Title level={3} style={{ marginBottom: 4, color: '#1a1a2e' }}>RBAC 管理系统</Title>
-          <Text type="secondary" style={{ fontSize: 13 }}>商城后台权限管理平台</Text>
+          <Title level={3} style={{ marginBottom: 4, color: '#1a1a2e' }}>根号奇商城管理系统</Title>
+          <Text type="secondary" style={{ fontSize: 13 }}>商城后台管理平台</Text>
         </div>
 
         <Form

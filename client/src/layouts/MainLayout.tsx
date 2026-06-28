@@ -114,7 +114,7 @@ export default function MainLayout() {
           fontWeight: 'bold',
           borderBottom: '1px solid rgba(255,255,255,0.1)',
         }}>
-          {collapsed ? 'RBAC' : 'RBAC 管理系统'}
+          {collapsed ? '根号奇' : '根号奇商城管理系统'}
         </div>
         <Menu
           theme="dark"
