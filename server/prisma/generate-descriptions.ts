@@ -4,16 +4,25 @@
  */
 import { prisma } from '../src/utils/prisma'
 
-// ====== 生成随机色块 SVG 作为装饰图 ======
+// ====== 生成内嵌 SVG 占位图（无需外部网络） ======
+const COLORS = ['667eea', '764ba2', 'f093fb', '4facfe', '43e97b', 'fa709a', 'fee140', '30cfd0', 'a8edea', 'fccb90', 'd299c2', 'a1c4fd', '302b63', 'e74c3c', '2ecc71', 'e67e22', '1abc9c', '9b59b6']
+
+function svgDataUri(w: number, h: number, bg: string, text: string): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="${w}" y2="${h}"><stop offset="0" stop-color="#${bg}"/><stop offset="1" stop-color="#${COLORS[(COLORS.indexOf(bg) + 5) % COLORS.length]}"/></linearGradient></defs>
+  <rect fill="url(#g)" width="${w}" height="${h}"/>
+  <rect x="40" y="40" width="${w - 80}" height="${h - 80}" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" rx="8"/>
+  <text fill="white" font-family="sans-serif" font-size="${Math.floor(Math.min(w, h) / 15)}" x="${w / 2}" y="${h / 2}" text-anchor="middle" dominant-baseline="middle" opacity="0.9">${text}</text>
+</svg>`
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+}
+
 function placeholderImg(seed: number, w = 800, h = 400, text = '商品展示'): string {
-  const colors = ['667eea', '764ba2', 'f093fb', '4facfe', '43e97b', 'fa709a', 'fee140', '30cfd0', 'a8edea', 'fccb90', 'd299c2', 'a1c4fd']
-  const c1 = colors[seed % colors.length]
-  const c2 = colors[(seed + 3) % colors.length]
-  return `https://picsum.photos/seed/p${seed}/${w}/${h}`
+  return svgDataUri(w, h, COLORS[seed % COLORS.length], text)
 }
 
 function placeholderImgSmall(seed: number): string {
-  return `https://picsum.photos/seed/p${seed}/400/300`
+  return svgDataUri(400, 300, COLORS[seed % COLORS.length], '细节展示')
 }
 
 // ====== 生成 HTML 描述模板 ======
