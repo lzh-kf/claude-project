@@ -10,11 +10,13 @@ import dashboardRoutes from './routes/dashboard'
 import categoryRoutes from './routes/categories'
 import productRoutes from './routes/products'
 import orderRoutes from './routes/orders'
+import uploadRoutes from './routes/upload'
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // API 路由
 app.use('/api/auth', authRoutes)
@@ -25,6 +27,10 @@ app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
+app.use('/api/upload', uploadRoutes)
+
+// 托管上传文件
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 
 // 健康检查
 app.get('/api/health', (_req, res) => {
