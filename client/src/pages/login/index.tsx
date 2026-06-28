@@ -59,7 +59,7 @@ export default function LoginPage() {
           }}>
             <span style={{ color: '#fff', fontSize: 26, fontWeight: 700 }}>√</span>
           </div>
-          <Title level={3} style={{ marginBottom: 4, color: '#1a1a2e' }}>根号奇商城管理系统</Title>
+          <Title level={3} style={{ marginBottom: 4, color: '#1a1a2e' }}>根号奇商城管理后台</Title>
           <Text type="secondary" style={{ fontSize: 13 }}>商城后台管理平台</Text>
         </div>
 

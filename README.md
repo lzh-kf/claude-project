@@ -1,6 +1,6 @@
-# 根号奇商城管理系统
+# 根号奇商城管理后台
 
-基于 React + Express + Prisma + PostgreSQL 的商城管理系统，用于验证 AI 全栈开发可行性。
+基于 React + Express + Prisma + PostgreSQL 的商城管理后台，用于验证 AI 全栈开发可行性。
 
 ## 技术栈
 
