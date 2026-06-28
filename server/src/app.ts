@@ -11,6 +11,7 @@ import categoryRoutes from './routes/categories'
 import productRoutes from './routes/products'
 import orderRoutes from './routes/orders'
 import memberRoutes from './routes/members'
+import bannerRoutes from './routes/banner'
 import uploadRoutes from './routes/upload'
 
 const app = express()
@@ -29,6 +30,7 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/members', memberRoutes)
+app.use('/api/banners', bannerRoutes)
 app.use('/api/upload', uploadRoutes)
 
 // 托管上传文件

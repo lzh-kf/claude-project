@@ -8,8 +8,12 @@ export async function list(req: Request, res: Response) {
   const keyword = (req.query.keyword as string) || ''
   const status = req.query.status as string
   const categoryId = req.query.categoryId as string
+  const isFeatured = req.query.isFeatured as string
 
   const where: any = {}
+  if (isFeatured) {
+    where.isFeatured = parseInt(isFeatured)
+  }
   if (keyword) {
     where.OR = [
       { name: { contains: keyword } },

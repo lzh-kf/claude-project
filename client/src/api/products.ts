@@ -23,7 +23,7 @@ export interface PaginatedResult<T> {
   pageSize: number
 }
 
-export function getProducts(params: { page?: number; pageSize?: number; keyword?: string; status?: string; categoryId?: string }) {
+export function getProducts(params: { page?: number; pageSize?: number; keyword?: string; status?: string; categoryId?: string; isFeatured?: string }) {
   return request.get<never, PaginatedResult<Product>>('/products', { params })
 }
 

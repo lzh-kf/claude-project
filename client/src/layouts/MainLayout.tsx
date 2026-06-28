@@ -13,6 +13,7 @@ import {
   AppstoreOutlined,
   ShoppingCartOutlined,
   IdcardOutlined,
+  HomeOutlined,
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { useAuthStore } from '../store/auth'
@@ -28,6 +29,7 @@ const menuItems: MenuProps['items'] = [
   { key: '/categories', icon: <AppstoreOutlined />, label: '分类管理' },
   { key: '/orders', icon: <ShoppingCartOutlined />, label: '订单管理' },
   { key: '/members', icon: <IdcardOutlined />, label: '会员管理' },
+  { key: '/home-config', icon: <HomeOutlined />, label: '首页配置' },
 ]
 
 // 面包屑路径映射
@@ -40,6 +42,7 @@ const breadcrumbMap: Record<string, string> = {
   '/categories': '分类管理',
   '/orders': '订单管理',
   '/members': '会员管理',
+  '/home-config': '首页配置',
 }
 
 // 根据当前路径生成面包屑

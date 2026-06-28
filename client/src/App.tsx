@@ -12,6 +12,7 @@ import CategoriesPage from './pages/categories'
 import OrdersPage from './pages/orders'
 import OrderDetailPage from './pages/orders/detail'
 import MembersPage from './pages/members'
+import HomeConfigPage from './pages/home-config'
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="orders" element={<OrdersPage />} />
         <Route path="orders/:id" element={<OrderDetailPage />} />
         <Route path="members" element={<MembersPage />} />
+        <Route path="home-config" element={<HomeConfigPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
